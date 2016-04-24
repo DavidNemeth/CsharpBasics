@@ -24,5 +24,25 @@ namespace Inheritance
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Circle s1 = new Circle(DrawingCanvas);
+            Shape s2 = new Square(DrawingCanvas);
+            Square s3 = new Square(DrawingCanvas);
+
+            s1.Draw();s2.Draw();s3.Draw();
+
+            for (int i = 0; i < 100; i++)
+            {
+                DrawShape(new Square(DrawingCanvas));
+                DrawShape(new Circle(DrawingCanvas));
+            }
+        }
+
+        private void DrawShape(Shape shape)
+        {
+            shape.Draw();
+        }
     }
 }
