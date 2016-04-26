@@ -30,7 +30,7 @@ namespace Inheritance
             Circle s1 = new Circle(DrawingCanvas);
             Shape s2 = new Square(DrawingCanvas);
             Square s3 = new Square(DrawingCanvas);
-
+            //Shape s5 = new Shape(DrawingCanvas);
             s1.Draw();s2.Draw();s3.Draw();
 
             for (int i = 0; i < 100; i++)

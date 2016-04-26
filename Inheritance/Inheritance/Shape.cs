@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace Inheritance
 {
-    class Shape
+    abstract class Shape
     {
         public Shape(Canvas canvas)
         {
