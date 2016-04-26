@@ -17,7 +17,7 @@ namespace Inheritance
             _canvas = canvas;
         }
 
-        public void Draw()
+        public virtual void Draw()
         {
             double left = _canvas.ActualWidth * _rand.NextDouble();
             double top = _canvas.ActualHeight * _rand.NextDouble();
@@ -27,7 +27,7 @@ namespace Inheritance
         }
 
         Canvas _canvas;
-        protected UIElement _element;
+        protected System.Windows.Shapes.Shape _element;
         static Random _rand = new Random();
     }
 
@@ -39,9 +39,14 @@ namespace Inheritance
             Ellipse ellipse = new Ellipse();
             ellipse.Width = 10;
             ellipse.Height = 10;
-            ellipse.Fill = new SolidColorBrush(Colors.Red);
+            ellipse.Fill = new SolidColorBrush(Colors.Green);
             ellipse.Stroke = new SolidColorBrush(Colors.Black);
-            _element = ellipse;
+            _element = ellipse;            
+        }
+        public override void Draw()
+        {
+            _element.Fill = new SolidColorBrush(Colors.Red);
+            base.Draw();
         }
     }
 
