@@ -1,16 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections;
+using InvoiceLib;
 
 namespace cstypes
 {
-    public class Invoice
-    {
-        public int ID { get; set; }  // int->value type, stored in stack=static memory
-        public string Description { get; set; } // string->stored in heap(dynamic memory allocation), since they can be huge
-        public decimal Amount { get; set; }
-    }
-
     /*
      *  This Unit test shows the difference between value and reference types.
      *  Reference types holds a pointer to a nother area of the heap that contains the value for our object.

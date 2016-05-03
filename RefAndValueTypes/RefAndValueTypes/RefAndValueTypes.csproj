@@ -53,6 +53,12 @@
     <Compile Include="cstypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InvoiceLib\InvoiceLib.csproj">
+      <Project>{15cb85e1-1e4e-4815-ade4-59b37a8f86ec}</Project>
+      <Name>InvoiceLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
