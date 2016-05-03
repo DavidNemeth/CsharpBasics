@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections;
 
 namespace cstypes
 {
@@ -119,6 +120,28 @@ namespace cstypes
              * They are immutable.
              */
             Assert.IsTrue(name.Equals("David", StringComparison.CurrentCulture));
+        }
+
+        [TestMethod]
+        public void ArrayTests()
+        {
+            /*
+             * Arrays are reference type
+            */ 
+            string[] names = new string[4];
+            names[0] = "David";
+            names[1] = "Nemeth";
+            names[2] = "Kate";
+            names[3] = "Kristine";
+
+            ChangeName(names);
+
+            Assert.IsTrue(names[0] == "Alien");
+        }
+
+        private void ChangeName(IList names)
+        {
+            names[0] = "Alien";
         }
     }
 }
