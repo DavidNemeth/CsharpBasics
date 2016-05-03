@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace RefAndValueTypes
+namespace cstypes
 {
     public class Invoice
     {
@@ -105,6 +105,20 @@ namespace RefAndValueTypes
             invoice.ID = 5;
             refvalue = 3;
             value = 2;
+        }
+
+        [TestMethod]
+        public void StringTests()
+        {            
+            string name = " David ";
+            //name.Trim();  *since strings are immutable this would create a new instance and the test would fail*
+            name = name.Trim(); //so we have to capture the new instance and sign it into name
+            /*
+             * Strings are reference type as they can be too big, so they need to be stored in the heap,
+             * however they behave like value types.
+             * They are immutable.
+             */
+            Assert.IsTrue(name.Equals("David", StringComparison.CurrentCulture));
         }
     }
 }
