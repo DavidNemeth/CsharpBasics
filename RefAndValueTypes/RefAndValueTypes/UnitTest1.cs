@@ -17,15 +17,14 @@ namespace RefAndValueTypes
      */
     [TestClass]
     public class RefAndValueTypes
-    {        
+    {
+        /*
+        * The test gives a simple example how reference type behave,
+        * and all new instace points to different objects 
+        */
         [TestMethod]
         public void IdentityTest()
         {
-
-            /*
-             * The test gives a simple example how reference type behave,
-             * and all new instace points to different objects 
-             */
             Invoice firstInvoice = new Invoice();
             firstInvoice.ID = 1;  // pointer!
             firstInvoice.Description = "Test";
@@ -60,14 +59,13 @@ namespace RefAndValueTypes
             firstInvoice.Description = "test2";
             Assert.IsTrue(secondInvoice.Description == "test2");
         }
+        /*
+         * This test shows how value types behave differently
+         * compared to reference type, as they actually hold the value and not a pointer. 
+         */
         [TestMethod]
         public void ValueTypeTest()
-        {
-            /*
-             * This test shows how value types behave differently
-             * compared to reference type, as they actually hold the value and not a pointer. 
-             */
-
+        { 
             int x = 5;
             int y = x;
 
@@ -75,6 +73,38 @@ namespace RefAndValueTypes
 
             Assert.IsTrue(x == 5);
             Assert.IsTrue(y == 10);
+        }
+        /*
+         * Parameters pass "by value" on default
+         * Reference types pass a COPY of the reference(copy of the pointer)
+         * Value Types pass a COPY of the value         
+         * CHANGES TO VALUE DONT PROPAGATE TO CALLER!
+         * 
+         * ref and out keywords allow pass "by reference"
+         * ref parameters requires initialized variable
+         * out must be assigned in the method
+         */
+        [TestMethod]
+        public void MethodParameters()
+        {
+            Invoice invoice = new Invoice();
+            invoice.ID = 1;
+            int value;
+            int refvalue = 1;
+
+            DoWork(ref invoice,out value, ref refvalue);
+
+            Assert.IsTrue(invoice.ID == 5);
+            Assert.IsTrue(value == 2);
+            Assert.IsTrue(refvalue == 3);            
+        }
+
+        void DoWork(ref Invoice invoice,out int value,ref int refvalue)
+        {
+            invoice = new Invoice();      
+            invoice.ID = 5;
+            refvalue = 3;
+            value = 2;
         }
     }
 }
