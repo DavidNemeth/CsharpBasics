@@ -27,7 +27,9 @@ namespace Members
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MethodDemo methoddemo = new MethodDemo();            
+            MethodDemo methoddemo = new MethodDemo();
+            DelegateDemo delegatedemo = new DelegateDemo();
+            delegatedemo.DoWork();
         }
     }
 }
