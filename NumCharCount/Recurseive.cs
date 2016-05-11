@@ -11,14 +11,18 @@ namespace NumCharCount
     {
         class Counting
         {
-            static int counter = 0;
-            public int id;            
+            private static int Id;
+            public int id
+            {
+                get { return Id; }
+                set { Id = value; }
+            }
+
             public char c;
             public Counting()
             {
-                id = counter;
-                c = (char)(((int)'a') + counter);
-                counter++;
+                c = (char)(((int)'a') + Id);
+                Id++;
             }
         }
         static void Recurse(int i)
@@ -34,7 +38,7 @@ namespace NumCharCount
 
         static void Main(string[] args)
         {
-            Recurse(100);
+            Recurse(10);
             Console.Read();
         }        
     }
