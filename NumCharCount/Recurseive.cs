@@ -11,13 +11,12 @@ namespace NumCharCount
     {
         class Counting
         {
-            private static int Id;
+            static int Id;
             public int id
             {
                 get { return Id; }
                 set { Id = value; }
             }
-
             public char c;
             public Counting()
             {
@@ -32,7 +31,7 @@ namespace NumCharCount
             if (i == 0)
             {
                 return;
-            }
+            }            
             Recurse(i - 1);
         }
 
