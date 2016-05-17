@@ -6,9 +6,9 @@ namespace DelegatesAndEvents
 {
     class DelegateDemo
     {
-        delegate bool Mydeli(int n);
-        delegate void ChainDeli();
-        delegate int ReturnDeli();
+        //delegate bool Mydeli(int n);
+        //delegate void ChainDeli();
+        //delegate T ReturnDeli<T>();
         static void Main()
         {
             int[] numbers = new int[] { 11, 3, 15, 6, 5, 2, 20, 8 };
@@ -21,24 +21,26 @@ namespace DelegatesAndEvents
 
             //Delegate chaining
 
-            ChainDeli a = Foo;
+            Action a = Foo;
             a += Goo;
             a += Moo;
             a();
             Console.ReadLine();
-            ReturnDeli deli = ReturnFive;
-            deli += ReturnTen;
-            deli += ReturnZero;
-            //List<int> returnInts = new List<int>();
-            //foreach (ReturnDeli del in deli.GetInvocationList())
-            //    returnInts.Add(del());            
-            foreach (int item in GetAllReturns(deli))
+
+            //Func  -> delegate with return
+            //Action -> delegate with void
+
+            Func<int> d = ReturnFive;
+            d += ReturnTen;
+            d += ReturnZero;
+                        
+            foreach (int item in GetAllReturns(d))
                 Console.WriteLine(item);
             
             Console.ReadLine();
         }
-
-        static IEnumerable<int> GetNumbers(IEnumerable<int> numbers, Mydeli deli)
+        #region mydeli
+        static IEnumerable<int> GetNumbers(IEnumerable<int> numbers, Func<int, bool> deli)
         {
             foreach (int number in numbers)
             {
@@ -52,16 +54,17 @@ namespace DelegatesAndEvents
         static void Foo() { Console.WriteLine("Foo()"); }
         static void Goo() { Console.WriteLine("Goo()"); }
         static void Moo() { Console.WriteLine("Moo()"); }
+        #endregion
 
-        static List<int> GetAllReturns(ReturnDeli d)
-        {
-            List<int> returnInts = new List<int>();
-            foreach (ReturnDeli del in d.GetInvocationList())
-                returnInts.Add(del());
-            return returnInts;
+        #region returndeli
+        static IEnumerable<T> GetAllReturns<T>(Func<T> d)
+        {            
+            foreach (Func<T> del in d.GetInvocationList())
+                yield return del();
         }
         static int ReturnFive() { return 5; }
         static int ReturnTen() { return 10; }
         static int ReturnZero() { return 0; }
+        #endregion  
     }
 }
