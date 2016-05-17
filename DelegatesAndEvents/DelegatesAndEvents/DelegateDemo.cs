@@ -27,8 +27,8 @@ namespace DelegatesAndEvents
             a();
             Console.ReadLine();
 
-            //Func  -> delegate with return
-            //Action -> delegate with void
+            //Func  -> delegate, can have return argument
+            //Action -> delegate returns void
 
             Func<int> d = ReturnFive;
             d += ReturnTen;
