@@ -16,10 +16,10 @@ namespace DelegatesVsEvents
             trainSignal.TrainIsGone();
             Console.WriteLine();
 
-            //events stop you from invoking/assigning delegate directly            
+            //events are delegate references that you cant invoke/assign directly
             //trainSignal.TrainsAreComing();
             //trainSignal.TrainsAreComing = null;
-            //so you no accident today:(           
+            //so no accident today:(           
             
             trainSignal.HereComesATrain();
             Console.ReadLine();
