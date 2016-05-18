@@ -11,9 +11,18 @@ namespace DelegatesVsEvents
             new Car(trainSignal);
             new Car(trainSignal);
             new Car(trainSignal);
-            trainSignal.HereComesATrain();
+            trainSignal.HereComesATrain();            
             Console.WriteLine();
-            trainSignal.GoodToGo();
+            trainSignal.TrainIsGone();
+            Console.WriteLine();
+
+            //events stop you from invoking/assigning delegate directly            
+            //trainSignal.TrainsAreComing();
+            //trainSignal.TrainsAreComing = null;
+            //so you no accident today:(           
+            
+            trainSignal.HereComesATrain();
+            Console.ReadLine();
         }
     }
 }

@@ -5,18 +5,26 @@ namespace DelegatesVsEvents
 {
     class TrainSignal
     {
-        public Action TrainsAreComing; //void delegate reference
-        public Action GoodToGo;
+        public event Action TrainsAreComing; //void delegate reference
+        public event Action GoodToGo;
 
         public void HereComesATrain()
         {
             //logix
-            TrainsAreComing();
+            if (TrainsAreComing != null)
+            {
+                TrainsAreComing.Invoke();
+            }
+            
         }
         public void TrainIsGone()
         {
             //more logix
-            GoodToGo();
+            if (GoodToGo != null)
+            {
+                GoodToGo.Invoke();
+            }
+            
         }
     }
 
@@ -25,7 +33,7 @@ namespace DelegatesVsEvents
         public Car(TrainSignal trainSignal)
         {
             trainSignal.TrainsAreComing += StopTheCar; //add to list(subscribe)
-            trainSignal.GoodToGo += MoveOn;
+            trainSignal.GoodToGo += () => Console.WriteLine("Get movin' boy!"); //same stuff with Lambda
         }
 
         private void MoveOn()
