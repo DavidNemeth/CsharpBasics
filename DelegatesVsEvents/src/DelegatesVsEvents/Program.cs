@@ -3,7 +3,7 @@
 namespace DelegatesVsEvents
 {
     public class Program
-    {       
+    {  
         public static void Main(string[] args)
         {
             TrainSignal trainSignal = new TrainSignal();
@@ -19,10 +19,16 @@ namespace DelegatesVsEvents
             //events are delegate references that you cant invoke/assign directly
             //trainSignal.TrainsAreComing();
             //trainSignal.TrainsAreComing = null;
-            //so no accident today:(           
-            
+            //so no accident today:(    
             trainSignal.HereComesATrain();
             Console.ReadLine();
+
+            //adding and removing 
+
+            Cow charlie = new Cow();
+            charlie.Mooing += () => Console.WriteLine("Moo!");            
+            charlie.AnnoyTheCow();
+            Console.ReadLine();
         }
-    }
+    }    
 }
