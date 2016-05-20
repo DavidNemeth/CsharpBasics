@@ -29,6 +29,23 @@ namespace DelegatesVsEvents
             charlie.Mooing += () => Console.WriteLine("Moo!");            
             charlie.AnnoyTheCow();
             Console.ReadLine();
+
+            //eventhandler
+
+            Script s1 = new Script { Name = "Raiku" };
+            s1.Interrupt += interrupt;
+            Script s2 = new Script { Name = "Barburas" };
+            s2.Interrupt += interrupt;
+            Script caster = new Random().Next() % 2 == 0 ? s1 : s2;
+            caster.Casting();
+
+            Console.ReadLine();
+                                  
+        }
+        static void interrupt(object sender, EventArgs e)
+        {
+            Script s = sender as Script;
+            Console.WriteLine("Cast interrupted by {0}", s.Name);
         }
     }    
 }
