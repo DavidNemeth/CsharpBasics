@@ -37,15 +37,24 @@ namespace DelegatesVsEvents
             Script s2 = new Script { Name = "Barburas" };
             s2.Interrupt += interrupt;
             Script caster = new Random().Next() % 2 == 0 ? s1 : s2;
-            caster.Casting();
+            caster.CastInterrupted();
 
             Console.ReadLine();
                                   
         }
-        static void interrupt(object sender, EventArgs e)
+        static void interrupt(object sender, ScriptEventArgs e)
         {
-            Script s = sender as Script;
-            Console.WriteLine("Cast interrupted by {0}", s.Name);
+            Script s = sender as Script;            
+            switch (e.CurrentCastState)
+            {
+                case CastState.Casting:
+                    Console.WriteLine("{0} Interrupt!", s.Name);                    
+                    break;
+
+                case CastState.Iddle:
+                    Console.WriteLine("Not casting");
+                    break;
+            }
         }
     }    
 }

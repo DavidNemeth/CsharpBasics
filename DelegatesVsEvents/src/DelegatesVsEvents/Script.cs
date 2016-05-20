@@ -5,13 +5,28 @@ using System.Threading.Tasks;
 
 namespace DelegatesVsEvents
 {
+    public enum CastState
+    {
+        Casting,
+        Iddle        
+    }
+    class ScriptEventArgs : EventArgs
+    {
+        public CastState CurrentCastState { get; private set; }
+        public ScriptEventArgs(CastState currentState)
+        {
+            CurrentCastState = currentState;
+        }
+    }
+
     class Script
     {
         public string Name { get; set; }
-        public event EventHandler Interrupt;
-        public void Casting()
+        public event EventHandler<ScriptEventArgs> Interrupt;
+        public void CastInterrupted()
         {
-            Interrupt?.Invoke(this, EventArgs.Empty);
+            //casting logic
+            Interrupt?.Invoke(this, new ScriptEventArgs(CastState.Casting));
         }
     }
 }
