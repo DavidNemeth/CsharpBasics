@@ -19,12 +19,33 @@ namespace BasicPODO
     class MainClass
     {
         static void Main()
-        {            
+        {           
             var vidContext = new VidContext();
-            var testVideo = vidContext.Videos.Single();
-            Console.WriteLine(testVideo.ID);
-            Console.WriteLine(testVideo.Title);
-            Console.WriteLine(testVideo.Description);
+            //create
+            Video vid = new Video
+            {
+                Title = "Entity CRUD",
+                Description = "learn basic crud with entity"
+            };
+            vidContext.Videos.Add(vid);
+            vidContext.SaveChanges();
+            //
+
+            //read
+            Video video = vidContext.Videos.First();
+            Console.WriteLine(vid.Title);
+            //
+
+            //update
+            vid.Title = "Update Title";
+            Console.WriteLine(vid.Title);
+            vidContext.SaveChanges();
+            //
+
+            //delete
+            vidContext.Videos.Remove(vid);
+            vidContext.SaveChanges();            
+            //
         }
     }
 }
