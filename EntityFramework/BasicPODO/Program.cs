@@ -1,9 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
 namespace BasicPODO
 {
+    class PlayList
+    {
+        public int ID { get; set; }
+        public string Title { get; set; }
+        public List<Video> Videos { get; set; }
+    }
+
     class Video
     {
         public int ID { get; set; }
@@ -12,40 +20,29 @@ namespace BasicPODO
     }
 
     class VidContext : DbContext
-    {       
+    {
         public DbSet<Video> Videos { get; set; }
+        public DbSet<PlayList> PlayLists { get; set; }
     }
 
     class MainClass
     {
         static void Main()
-        {           
-            var vidContext = new VidContext();
-            //create
-            Video vid = new Video
+        {
+            VidContext db = new VidContext();         
+               
+            Video testVideo = new Video
             {
-                Title = "Entity CRUD",
-                Description = "learn basic crud with entity"
+                Title = "Worst relation",
+                Description = "Title says it all"
             };
-            vidContext.Videos.Add(vid);
-            vidContext.SaveChanges();
-            //
-
-            //read
-            Video video = vidContext.Videos.First();
-            Console.WriteLine(vid.Title);
-            //
-
-            //update
-            vid.Title = "Update Title";
-            Console.WriteLine(vid.Title);
-            vidContext.SaveChanges();
-            //
-
-            //delete
-            vidContext.Videos.Remove(vid);
-            vidContext.SaveChanges();            
-            //
+            db.Videos.Add(testVideo);    
+                
+            PlayList testPlayList = new PlayList();
+            testPlayList.Title = "playlist1";
+            testPlayList.Videos = new List<Video> { testVideo };
+            db.PlayLists.Add(testPlayList);
+            db.SaveChanges();
         }
     }
 }
