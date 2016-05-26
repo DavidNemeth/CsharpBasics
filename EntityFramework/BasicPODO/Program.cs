@@ -10,6 +10,15 @@ namespace BasicPODO
         public int ID { get; set; }
         public string Title { get; set; }
         public List<Video> Videos { get; set; }
+        public override string ToString()
+        {
+            string ret = Title +": ";
+            foreach (Video vid in Videos)
+            {
+                ret += vid.Title + ", ";
+            }
+            return ret;
+        }
     }
 
     class Video
@@ -47,8 +56,10 @@ namespace BasicPODO
             PlayList testPlayList = new PlayList();
             testPlayList.Title = "playlist1";
             testPlayList.Videos = new List<Video> { testVideo, nextBigHit };
-            db.PlayLists.Add(testPlayList);            
-            db.SaveChanges();
+            db.PlayLists.Add(testPlayList);
+            Console.WriteLine(testPlayList);
+            //db.SaveChanges();
+            Console.Read();
         }
     }
 }
