@@ -26,6 +26,7 @@ namespace BasicPODO
         public int ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public List<PlayList> PlayLists { get; set; }
     }
 
     class VidContext : DbContext
@@ -53,11 +54,20 @@ namespace BasicPODO
             db.Videos.Add(testVideo);
             db.Videos.Add(nextBigHit);
 
-            PlayList testPlayList = new PlayList();
-            testPlayList.Title = "playlist1";
-            testPlayList.Videos = new List<Video> { testVideo, nextBigHit };
-            db.PlayLists.Add(testPlayList);
-            Console.WriteLine(testPlayList);
+            PlayList playlist1 = new PlayList();
+            PlayList playlist2 = new PlayList();
+
+
+            playlist1.Title = "playlist1";
+            playlist1.Videos = new List<Video> { testVideo, nextBigHit };
+            db.PlayLists.Add(playlist1);
+
+            playlist2.Title = "Playlist2";
+            playlist2.Videos = new List<Video> { testVideo };
+            db.PlayLists.Add(playlist2);
+
+            Console.WriteLine(playlist1);
+            Console.WriteLine(playlist2);
             //db.SaveChanges();
             Console.Read();
         }
