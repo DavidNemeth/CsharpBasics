@@ -29,19 +29,25 @@ namespace BasicPODO
     {
         static void Main()
         {
-            VidContext db = new VidContext();         
-               
+            VidContext db = new VidContext();
+
             Video testVideo = new Video
             {
                 Title = "Worst relation",
                 Description = "Title says it all"
             };
-            db.Videos.Add(testVideo);    
-                
+            Video nextBigHit = new Video
+            {
+                Title = "The next viral hit",
+                Description = "Sharing is caring"
+            };
+            db.Videos.Add(testVideo);
+            db.Videos.Add(nextBigHit);
+
             PlayList testPlayList = new PlayList();
             testPlayList.Title = "playlist1";
-            testPlayList.Videos = new List<Video> { testVideo };
-            db.PlayLists.Add(testPlayList);
+            testPlayList.Videos = new List<Video> { testVideo, nextBigHit };
+            db.PlayLists.Add(testPlayList);            
             db.SaveChanges();
         }
     }
