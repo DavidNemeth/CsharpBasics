@@ -9,30 +9,27 @@ namespace BasicPODO
     {
         public int ID { get; set; }
         public string Title { get; set; }
-        public List<Video> Videos { get; set; }
-        public override string ToString()
-        {
-            string ret = Title +": ";
-            foreach (Video vid in Videos)
-            {
-                ret += vid.Title + ", ";
-            }
-            return ret;
-        }
+        public List<Video> GoodVideos { get; set; }
+        public List<Video> BadVideos { get; set; }    
     }
 
     class Video
     {
         public int ID { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
-        public List<PlayList> PlayLists { get; set; }
+        public string Description { get; set; }  
     }
 
     class VidContext : DbContext
     {
         public DbSet<Video> Videos { get; set; }
         public DbSet<PlayList> PlayLists { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PlayList>().HasMany(p => p.GoodVideos).WithMany();
+            modelBuilder.Entity<PlayList>().HasMany(p => p.BadVideos).WithMany();
+        }
     }
 
     class MainClass
@@ -59,17 +56,15 @@ namespace BasicPODO
 
 
             playlist1.Title = "playlist1";
-            playlist1.Videos = new List<Video> { testVideo, nextBigHit };
+            playlist1.GoodVideos = new List<Video> { nextBigHit };
+            playlist1.BadVideos = new List<Video> { testVideo };
             db.PlayLists.Add(playlist1);
 
-            playlist2.Title = "Playlist2";
-            playlist2.Videos = new List<Video> { testVideo };
-            db.PlayLists.Add(playlist2);
-
-            Console.WriteLine(playlist1);
-            Console.WriteLine(playlist2);
-            //db.SaveChanges();
-            Console.Read();
+            playlist2.Title = "playlist2";
+            playlist2.BadVideos = new List<Video> { testVideo };
+            playlist2.GoodVideos = new List<Video> { nextBigHit };
+            db.PlayLists.Add(playlist2);            
+            //db.SaveChanges();            
         }
     }
 }
