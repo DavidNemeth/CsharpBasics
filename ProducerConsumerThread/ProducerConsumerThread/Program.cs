@@ -6,11 +6,10 @@ namespace ProducerConsumerThread
 {
     class Program
     {
-        static Queue<int> numbers = new Queue<int>();
+        static SyncQueue<int> numbers = new SyncQueue<int>();
         static Random randy = new Random();
         static int NumThreads = Environment.ProcessorCount;
         static int[] sums = new int[NumThreads];
-
         static int iterate = 20;
         static int range = 100;
 
@@ -19,11 +18,8 @@ namespace ProducerConsumerThread
             for (int i = 0; i < iterate; i++)
             {
                 int numToEnque = randy.Next(range);
-                Console.WriteLine("Producing thread, adding " + numToEnque + " to the queue.");
-                lock (numbers)
-                {
-                    numbers.Enqueue(numToEnque);
-                }                
+                Console.WriteLine("Producing thread, adding " + numToEnque + " to the queue.");                
+                numbers.Enqueue(numToEnque);                              
                 Thread.Sleep(randy.Next(500));
             }
         }
@@ -34,7 +30,7 @@ namespace ProducerConsumerThread
             while ((DateTime.Now - startTime).Seconds < 11)
             {
                 int numTosum = -1;
-                lock (numbers)
+                lock (numbers.SyncRoot)
                 {
                     if (numbers.Count != 0)
                     {
@@ -74,6 +70,30 @@ namespace ProducerConsumerThread
             Console.WriteLine("Done adding. Total is " + totalSum);
             float percentage = ((float)totalSum / ((float)range * (float)iterate)) * 100;
             Console.WriteLine("{0}% of the maximum value", percentage);
+        }
+    }
+
+    class SyncQueue<T> : Queue<T>
+    {
+        object bot = new object();
+        Queue<T> theQ = new Queue<T>();
+        public void Enqueue(T item)
+        {
+            lock (bot)
+                theQ.Enqueue(item);
+        }
+        public T Dequeue()
+        {
+            lock (bot)
+                return theQ.Dequeue();
+        }
+        public int Count
+        {           
+            get { return theQ.Count; }
+        }
+        public object SyncRoot
+        {
+            get { return bot; }
         }
     }
 }
