@@ -20,7 +20,10 @@ namespace ProducerConsumerThread
             {
                 int numToEnque = randy.Next(range);
                 Console.WriteLine("Producing thread, adding " + numToEnque + " to the queue.");
-                numbers.Enqueue(numToEnque);
+                lock (numbers)
+                {
+                    numbers.Enqueue(numToEnque);
+                }                
                 Thread.Sleep(randy.Next(500));
             }
         }
