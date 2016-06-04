@@ -78,14 +78,11 @@ namespace Generics
         }
         public void InsertRange(int index, IEnumerable<T> newList)
         {
-            int newListCount = newList.Count();
-            EnsureCapacity(Length + newListCount);
-            Array.Copy(sourceArray, index, sourceArray, index + newListCount, Length - index);
-            foreach (T newItem in newList)
-            {
-                sourceArray[index++] = newItem;
-            }
-            Length += newListCount;
+            T[] newItemsArray = newList.ToArray();
+            EnsureCapacity(newItemsArray.Length + Length);
+            Array.Copy(sourceArray, index, sourceArray, index + newItemsArray.Length, Length - index);            
+            Array.Copy(newItemsArray, 0, sourceArray, index, newItemsArray.Length);
+            Length += newItemsArray.Length;
         }
         private void EnsureCapacity()
         {
