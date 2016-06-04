@@ -1,60 +1,27 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Generics
-{
-    class MyList<T>
-    {
-        T[] ints = new T[3];
-        int currentIndex;
-        public void Add(T i)
-        {
-            if (currentIndex == ints.Length)
-            {
-                Grow();
-            }
-            ints[currentIndex++] = i;
-        }
-        public T Get(int index)
-        {
-            return ints[index];
-        }
-
-        private void Grow()
-        {
-            T[] temp = new T[ints.Length * 2];
-            Array.Copy(ints, temp, ints.Length);
-            ints = temp;
-        }
-        public int Length { get { return currentIndex; } }
-    }
-
-
+{ 
     class GenericsExample
     {
-        static void PrintItems<T>(MyList<T> items)
+        static void P<T>(MyList<T> items)
         {
             for (int i = 0; i < items.Length; i++)            
-                Console.WriteLine(items.Get(i));            
+                Console.WriteLine(items[i]);            
         }
-        static void P<T>(T item)
+        static void P<T>(T items)
         {
-            Console.WriteLine(item);
-        }
+            Console.WriteLine(items);
+        }        
         static void Main(string[] args)
         {
-            MyList<int> myInts = new MyList<int>();
-            myInts.Add(4);
-            myInts.Add(1);
-            myInts.Add(12);
-            myInts.Add(2);
-
-            P("Hello");
-            P(5);
-            PrintItems(myInts);
-            for (int i = 0; i < myInts.Length; i++)            
-                Console.WriteLine(myInts.Get(i));
-            
-            Console.Read();
+            P("Not sure why i would do this");
+            var ageList = new MyList<int>(5) { 10, 12, 41, 21, 52 };
+            ageList.InsertRange(2, new[] { 50, 51, 52, 50, 51, 52, 50, 51, 52, 50, 51, 52, 50, 51, 52 });  
+            P(ageList);               
         }
     }
 }
