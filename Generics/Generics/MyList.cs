@@ -34,13 +34,33 @@ namespace Generics
                 }
             }
         }
+        public bool Exists(Predicate<T> pred)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (pred(sourceArray[i]))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool Contains(T item)
+        {
+            int index = IndexOf(item);
+            if (index >= 0)
+            {
+                return true;
+            }
+            return false;
+        }
         public void Remove(T item)
         {
             int index = IndexOf(item);
             if (index >= 0)
             {
-                RemoveAt(index);                
-            }            
+                RemoveAt(index);
+            }
         }
         public int IndexOf(T item)
         {
