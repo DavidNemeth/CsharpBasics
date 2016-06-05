@@ -18,14 +18,10 @@ namespace Generics
             sourceArray[Length++] = item;
 
         }
-        public void AddRange(T[] items)
+        public void AddRange(IEnumerable<T> items)
         {
-            T[] newItemsArray = items.ToArray();
-            EnsureCapacity(newItemsArray.Length + Length);
-            foreach (var item in items)
-            {
-                sourceArray[Length++] = item;
-            }
+            T[] newItemsArray = items.ToArray();            
+            InsertRange(Length, items);
         }
         public IEnumerator<T> GetEnumerator()
         {
