@@ -23,6 +23,7 @@ namespace Generics
 
             microsoftList.ForEach(Console.WriteLine);
             Console.WriteLine();
+            myList.ConvertAll(i => i.ToString());
             myList.ForEach(Console.WriteLine);
         }
     }

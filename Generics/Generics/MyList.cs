@@ -34,7 +34,6 @@ namespace Generics
                 }
             }
         }
-
         public void ForEach(Action<T> action)
         {
             foreach (T item in this)
@@ -42,7 +41,6 @@ namespace Generics
                 action(item);
             }
         }
-
         public int LastIndexOf(T item)
         {
             if (Count == 0)
@@ -235,6 +233,16 @@ namespace Generics
             MyList<T> ret = new MyList<T>(amount);
             Array.Copy(sourceArray, index, ret.sourceArray, 0, amount);
             ret.Count = amount;
+            return ret;
+        }
+        public MyList<U> ConvertAll<U>(Converter<T, U> converter)
+        {
+            MyList<U> ret = new MyList<U>(Count);
+            for (int i = 0; i < Count; i++)
+            {
+                ret.sourceArray[i] = converter(sourceArray[i]);
+                ret.Count = Count;
+            }
             return ret;
         }
         void OutOfRange(int index)
