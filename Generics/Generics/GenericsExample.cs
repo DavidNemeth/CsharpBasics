@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Generics
 {
@@ -18,14 +16,19 @@ namespace Generics
         }
         static void Main(string[] args)
         {
-            var myList = new MyList<int> { 10, 20, 30, 40, 50 };
-            var microsoftList = new List<int> { 1, 2, 3, 4, 5 };
-            microsoftList.RemoveAt(1);
-            myList.RemoveAt(0);
-            foreach (var item in myList)
+            var myList = new MyList<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var microsoftList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            myList.RemoveRange(2, 5);
+            microsoftList.RemoveRange(2, 5);
+            foreach (var item in microsoftList)
             {
                 Console.WriteLine(item);
             }
+            Console.WriteLine();
+            foreach (var item in myList)
+            {
+                Console.WriteLine(item);
+            }            
         }
     }
 }

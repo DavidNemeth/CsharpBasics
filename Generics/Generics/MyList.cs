@@ -39,7 +39,23 @@ namespace Generics
             Array.Copy(sourceArray, index + 1, sourceArray, index, Count - (index + 1));
             Count--;
         }
-
+        public void RemoveRange(int index, int count)
+        {
+            if (index + count > Count)
+            {
+                return;
+            }
+            Array.Copy(sourceArray, index + count, sourceArray, index, Count - (index + count));
+            Count -= count;
+        }
+        public void InsertRange(int index, IEnumerable<T> newList)
+        {
+            T[] newItemsArray = newList.ToArray();
+            EnsureCapacity(newItemsArray.Length + Count);
+            Array.Copy(sourceArray, index, sourceArray, index + newItemsArray.Length, Count - index);
+            Array.Copy(newItemsArray, 0, sourceArray, index, newItemsArray.Length);
+            Count += newItemsArray.Length;
+        }
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
         public T this[int index]
         {
@@ -83,15 +99,7 @@ namespace Generics
             Array.Copy(sourceArray, index, sourceArray, index + 1, Count - index);
             sourceArray[index] = item;
             Count++;
-        }
-        public void InsertRange(int index, IEnumerable<T> newList)
-        {
-            T[] newItemsArray = newList.ToArray();
-            EnsureCapacity(newItemsArray.Length + Count);
-            Array.Copy(sourceArray, index, sourceArray, index + newItemsArray.Length, Count - index);
-            Array.Copy(newItemsArray, 0, sourceArray, index, newItemsArray.Length);
-            Count += newItemsArray.Length;
-        }
+        }        
         public MyList<T> GetRange(int index, int amount)
         {
             MyList<T> ret = new MyList<T>(amount);
