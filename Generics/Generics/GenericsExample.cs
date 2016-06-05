@@ -16,10 +16,14 @@ namespace Generics
         }
         static void Main(string[] args)
         {
-            var myList = new MyList<int> { 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 10 };
-            var microsoftList = new List<int> { 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 10 };
-            Console.WriteLine(microsoftList.LastIndexOf(4));
-            Console.WriteLine(myList.LastIndexOf(4));
+            var myList = new MyList<int> { 18, 28, 38, 40 };
+            var microsoftList = new List<int> { 18, 28, 38, 40 };
+            Console.WriteLine(microsoftList.TrueForAll(i => i >= 18));
+            Console.WriteLine(myList.TrueForAll(i => i >= 18));
+
+            microsoftList.ForEach(Console.WriteLine);
+            Console.WriteLine();
+            myList.ForEach(Console.WriteLine);
         }
     }
 }

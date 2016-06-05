@@ -34,6 +34,15 @@ namespace Generics
                 }
             }
         }
+
+        public void ForEach(Action<T> action)
+        {
+            foreach (T item in this)
+            {
+                action(item);
+            }
+        }
+
         public int LastIndexOf(T item)
         {
             if (Count == 0)
@@ -209,6 +218,17 @@ namespace Generics
             Array.Copy(sourceArray, index, sourceArray, index + 1, Count - index);
             sourceArray[index] = item;
             Count++;
+        }
+        public bool TrueForAll(Predicate<T> condition)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (!condition(sourceArray[i]))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
         public MyList<T> GetRange(int index, int amount)
         {
