@@ -23,6 +23,12 @@ namespace Generics
             T[] newItemsArray = items.ToArray();
             InsertRange(Count, items);
         }
+        public T[] ToArray()
+        {
+            T[] ret = new T[Count];
+            Array.Copy(sourceArray, ret, Count);
+            return ret;
+        }
         public void RemoveAll(Predicate<T> pred)
         {
             for (int i = 0; i < Count; i++)
@@ -32,6 +38,13 @@ namespace Generics
                     Remove(sourceArray[i]);
                     i--;
                 }
+            }
+        }
+        public void CopyTo(T[] myCopytoarray)
+        {
+            if (myCopytoarray.Length >= Count)
+            {
+                Array.Copy(sourceArray, myCopytoarray, Count);
             }
         }
         public void ForEach(Action<T> action)

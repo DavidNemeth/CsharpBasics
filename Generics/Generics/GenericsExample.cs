@@ -18,13 +18,16 @@ namespace Generics
         {
             var myList = new MyList<int> { 18, 28, 38, 40 };
             var microsoftList = new List<int> { 18, 28, 38, 40 };
-            Console.WriteLine(microsoftList.TrueForAll(i => i >= 18));
-            Console.WriteLine(myList.TrueForAll(i => i >= 18));
+            var blabla = new int[myList.Count];
+            int[] myToArray = myList.ToArray();
 
-            microsoftList.ForEach(Console.WriteLine);
-            Console.WriteLine();
-            myList.ConvertAll(i => i.ToString());
-            myList.ForEach(Console.WriteLine);
+            myList.CopyTo(blabla);
+            foreach (var item in blabla)
+            {
+                Console.WriteLine(item);
+            }
+            
+            
         }
     }
 }
