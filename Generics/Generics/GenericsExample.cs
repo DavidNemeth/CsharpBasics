@@ -9,7 +9,7 @@ namespace Generics
     {
         static void P<T>(MyList<T> items)
         {
-            for (int i = 0; i < items.Length; i++)
+            for (int i = 0; i < items.Count; i++)
                 Console.WriteLine(items[i]);
         }
         static void P<T>(T items)
@@ -18,22 +18,14 @@ namespace Generics
         }
         static void Main(string[] args)
         {
-            Stopwatch timer = new Stopwatch();
-            int[] items = Enumerable.Range(0, 10000000).ToArray();
-
-            var myList = new MyList<int>(5) { 1, 2, 3, 4, 5 };
-            timer.Restart();
-            myList.AddRange(items);
-            timer.Stop();
-            Console.WriteLine("MyList speed: " + timer.ElapsedTicks / (float)Stopwatch.Frequency);
-            myList.AddRange(items);
-
-            var microsoftList = new List<int>(5) { 1, 2, 3, 4, 5 };
-            timer.Restart();
-            microsoftList.AddRange(items);
-            timer.Stop();
-            Console.WriteLine("microsoftList speed: " + timer.ElapsedTicks / (float)Stopwatch.Frequency);
-            myList.AddRange(items);
+            var myList = new MyList<int> { 10, 20, 30, 40, 50 };
+            var microsoftList = new List<int> { 1, 2, 3, 4, 5 };
+            microsoftList.RemoveAt(1);
+            myList.RemoveAt(0);
+            foreach (var item in myList)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }

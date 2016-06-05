@@ -15,21 +15,31 @@ namespace Generics
         public void Add(T item)
         {
             EnsureCapacity();
-            sourceArray[Length++] = item;
+            sourceArray[Count++] = item;
 
         }
         public void AddRange(IEnumerable<T> items)
         {
             T[] newItemsArray = items.ToArray();            
-            InsertRange(Length, items);
+            InsertRange(Count, items);
         }
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < Length; i++)
+            for (int i = 0; i < Count; i++)
             {
                 yield return sourceArray[i];
             }
         }
+        public void RemoveAt(int index)
+        {
+            if (index >= Count)
+            {
+                return;
+            }
+            Array.Copy(sourceArray, index + 1, sourceArray, index, Count - (index + 1));
+            Count--;
+        }
+
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
         public T this[int index]
         {
@@ -43,57 +53,64 @@ namespace Generics
                 OutOfRange(index);
                 sourceArray[index] = value;
             }
-        }
-        private void OutOfRange(int index)
-        {
-            if (index >= Length || index < 0)
-            {
-                throw new IndexOutOfRangeException();
-            }
-        }
+        }        
         public int Capacity
         {
             get { return sourceArray.Length; }
         }
-        public int Length { get; private set; }
+        public int Count { get; private set; }
         public void Clear()
         {
-            Length = 0;
+            Count = 0;
             if (typeof(T).BaseType.Equals(typeof(ValueType)))
             {
                 return;
             }
-            for (int i = 0; i < Length; i++)
+            for (int i = 0; i < Count; i++)
             {
                 sourceArray[i] = default(T);
             }
         }
         public void TrimExcess()
         {
-            T[] newArray = new T[Length];
-            Array.Copy(sourceArray, newArray, Length);
+            T[] newArray = new T[Count];
+            Array.Copy(sourceArray, newArray, Count);
             sourceArray = newArray;
         }
-        internal void Insert(int index, T item)
+        public void Insert(int index, T item)
         {
             EnsureCapacity();
-            Array.Copy(sourceArray, index, sourceArray, index + 1, Length - index);
+            Array.Copy(sourceArray, index, sourceArray, index + 1, Count - index);
             sourceArray[index] = item;
-            Length++;
+            Count++;
         }
         public void InsertRange(int index, IEnumerable<T> newList)
         {
             T[] newItemsArray = newList.ToArray();
-            EnsureCapacity(newItemsArray.Length + Length);
-            Array.Copy(sourceArray, index, sourceArray, index + newItemsArray.Length, Length - index);
+            EnsureCapacity(newItemsArray.Length + Count);
+            Array.Copy(sourceArray, index, sourceArray, index + newItemsArray.Length, Count - index);
             Array.Copy(newItemsArray, 0, sourceArray, index, newItemsArray.Length);
-            Length += newItemsArray.Length;
+            Count += newItemsArray.Length;
         }
-        private void EnsureCapacity()
+        public MyList<T> GetRange(int index, int amount)
         {
-            EnsureCapacity(Length + 1);
+            MyList<T> ret = new MyList<T>(amount);
+            Array.Copy(sourceArray, index, ret.sourceArray, 0, amount);
+            ret.Count = amount;
+            return ret;
+        } 
+        void OutOfRange(int index)
+        {
+            if (index >= Count || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
         }
-        private void EnsureCapacity(int neededCapacity)
+        void EnsureCapacity()
+        {
+            EnsureCapacity(Count + 1);
+        }
+        void EnsureCapacity(int neededCapacity)
         {
             if (neededCapacity > Capacity)
             {
