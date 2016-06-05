@@ -20,8 +20,31 @@ namespace Generics
         }
         public void AddRange(IEnumerable<T> items)
         {
-            T[] newItemsArray = items.ToArray();            
+            T[] newItemsArray = items.ToArray();
             InsertRange(Count, items);
+        }
+        public void RemoveAll(Predicate<T> pred)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (pred(sourceArray[i]))
+                {
+                    Remove(sourceArray[i]);
+                    i--;
+                }
+            }
+        }
+        public void Remove(T item)
+        {
+            int index = IndexOf(item);
+            if (index >= 0)
+            {
+                RemoveAt(index);                
+            }            
+        }
+        public int IndexOf(T item)
+        {
+            return Array.IndexOf<T>(sourceArray, item, 0, Capacity);
         }
         public IEnumerator<T> GetEnumerator()
         {
@@ -69,7 +92,7 @@ namespace Generics
                 OutOfRange(index);
                 sourceArray[index] = value;
             }
-        }        
+        }
         public int Capacity
         {
             get { return sourceArray.Length; }
@@ -99,14 +122,14 @@ namespace Generics
             Array.Copy(sourceArray, index, sourceArray, index + 1, Count - index);
             sourceArray[index] = item;
             Count++;
-        }        
+        }
         public MyList<T> GetRange(int index, int amount)
         {
             MyList<T> ret = new MyList<T>(amount);
             Array.Copy(sourceArray, index, ret.sourceArray, 0, amount);
             ret.Count = amount;
             return ret;
-        } 
+        }
         void OutOfRange(int index)
         {
             if (index >= Count || index < 0)
