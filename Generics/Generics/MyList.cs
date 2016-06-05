@@ -34,6 +34,77 @@ namespace Generics
                 }
             }
         }
+        public int LastIndexOf(T item)
+        {
+            if (Count == 0)
+            {
+                return -1;
+            }
+            else
+            {
+                return Array.LastIndexOf<T>(sourceArray, item, Count - 1, Count);
+            }
+        }
+        public int IndexOf(T item)
+        {
+            return Array.IndexOf<T>(sourceArray, item, 0, Capacity);
+        }
+        public int FindLastIndex(Predicate<T> pred)
+        {
+            for (int i = Count; i-- > 0;)
+            {
+                if (pred(sourceArray[i]))
+                {
+                    return Array.IndexOf<T>(sourceArray, sourceArray[i], 0, Capacity);
+                }
+            }
+            return -1;
+        }
+        public T FindLast(Predicate<T> pred)
+        {
+            for (int i = Count; i-- > 0;)
+            {
+                if (pred(sourceArray[i]))
+                {
+                    return sourceArray[i];
+                }
+            }
+            return default(T);
+        }
+        public int FindIndex(Predicate<T> pred)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (pred(sourceArray[i]))
+                {
+                    return Array.IndexOf<T>(sourceArray, sourceArray[i], 0, Capacity);
+                }
+            }
+            return -1;
+        }
+        public MyList<T> FindAll(Predicate<T> pred)
+        {
+            MyList<T> ret = new MyList<T>();
+            for (int i = 0; i < Count; i++)
+            {
+                if (pred(sourceArray[i]))
+                {
+                    ret.Add(sourceArray[i]);
+                }
+            }
+            return ret;
+        }
+        public T Find(Predicate<T> pred)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (pred(sourceArray[i]))
+                {
+                    return sourceArray[i];
+                }
+            }
+            return default(T);
+        }
         public bool Exists(Predicate<T> pred)
         {
             for (int i = 0; i < Count; i++)
@@ -61,10 +132,6 @@ namespace Generics
             {
                 RemoveAt(index);
             }
-        }
-        public int IndexOf(T item)
-        {
-            return Array.IndexOf<T>(sourceArray, item, 0, Capacity);
         }
         public IEnumerator<T> GetEnumerator()
         {
