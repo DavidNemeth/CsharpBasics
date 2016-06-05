@@ -19,16 +19,25 @@ namespace Generics
         }
         static void Main(string[] args)
         {
-            P("Not sure why i would do this");
-            var ageList = new MyList<int>(5) { 1, 2, 3, 4, 5 };
             Stopwatch timer = new Stopwatch();
-            timer.Start();
-            for (int i = 0; i < 50000; i++)
-            {
-                ageList.InsertRange(2, new[] { 10, 20, 30, });
-            }            
+            int[] items = Enumerable.Range(0, 100000000).ToArray();
+            
+            var myList = new MyList<int>(5) { 1, 2, 3, 4, 5 };            
+            timer.Restart();
+            myList.AddRange(items);
+            myList.InsertRange(2, items);
             timer.Stop();
-            Console.WriteLine(timer.ElapsedTicks / (float)Stopwatch.Frequency);
+            Console.WriteLine("MyList speed: " + timer.ElapsedTicks / (float)Stopwatch.Frequency);
+
+            var microsoftList = new List<int>(5) { 1, 2, 3, 4, 5 };
+            timer.Restart();
+            microsoftList.AddRange(items);
+            microsoftList.InsertRange(2, items);
+            timer.Stop();
+            Console.WriteLine("microsoftList speed: " + timer.ElapsedTicks / (float)Stopwatch.Frequency);
+
+
+
         }
     }
 }

@@ -18,6 +18,15 @@ namespace Generics
             sourceArray[Length++] = item;
 
         }
+        public void AddRange(T[] items)
+        {
+            T[] newItemsArray = items.ToArray();
+            EnsureCapacity(newItemsArray.Length + Length);
+            foreach (var item in items)
+            {
+                sourceArray[Length++] = item;
+            }
+        }
         public IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < Length; i++)
@@ -80,7 +89,7 @@ namespace Generics
         {
             T[] newItemsArray = newList.ToArray();
             EnsureCapacity(newItemsArray.Length + Length);
-            Array.Copy(sourceArray, index, sourceArray, index + newItemsArray.Length, Length - index);            
+            Array.Copy(sourceArray, index, sourceArray, index + newItemsArray.Length, Length - index);
             Array.Copy(newItemsArray, 0, sourceArray, index, newItemsArray.Length);
             Length += newItemsArray.Length;
         }
