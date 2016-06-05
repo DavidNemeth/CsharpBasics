@@ -16,18 +16,25 @@ namespace Generics
         }
         static void Main(string[] args)
         {
-            var myList = new MyList<int> { 18, 28, 38, 40 };
-            var microsoftList = new List<int> { 18, 28, 38, 40 };
-            var blabla = new int[myList.Count];
-            int[] myToArray = myList.ToArray();
-
-            myList.CopyTo(blabla);
-            foreach (var item in blabla)
+            Random randy = new Random();
+            var myList = new MyList<int> { };
+            var microsoftList = new List<int> { };
+            for (int i = 0; i < 20; i++)
+            {
+                myList.Add(randy.Next(100));
+                microsoftList.Add(randy.Next(100));
+            }
+            microsoftList.Sort();
+            foreach (var item in microsoftList)
             {
                 Console.WriteLine(item);
             }
-            
-            
+            Console.WriteLine();
+            myList.Sort();
+            foreach (var item in myList)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }

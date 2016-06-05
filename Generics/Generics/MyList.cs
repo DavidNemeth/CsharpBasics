@@ -40,6 +40,10 @@ namespace Generics
                 }
             }
         }
+        public void Sort()
+        {
+            Array.Sort<T>(sourceArray, 0, Count, null);
+        }
         public void CopyTo(T[] myCopytoarray)
         {
             if (myCopytoarray.Length >= Count)
