@@ -41,27 +41,35 @@ namespace Immutability
             return "Audit_" + (index + 1) + ".txt";
         }
 
-        public void RemoveMentionsAbout(string visitorName, string directoryName)
+        public IReadOnlyList<FileAction> RemoveMentionsAbout(string visitorName, FileContent[] directoryFiles)
         {
-            foreach (string fileName in Directory.GetFiles(directoryName))
-            {
-                string tempFile = Path.GetTempFileName();
-                List<string> linesToKeep = File
-                    .ReadLines(fileName)
-                    .Where(line => !line.Contains(visitorName))
-                    .ToList();
+            return directoryFiles
+                .Select(file => RemoveMentionsIn(file, visitorName))
+                .Where(action => action != null)
+                .Select(action => action.Value)
+                .ToList();
+        }
 
-                if (linesToKeep.Count == 0)
-                {
-                    File.Delete(fileName);
-                }
-                else
-                {
-                    File.WriteAllLines(tempFile, linesToKeep);
-                    File.Delete(fileName);
-                    File.Move(tempFile, fileName);
-                }
+        private FileAction? RemoveMentionsIn(FileContent file, string visitorName)
+        {
+            List<AuditEntry> entries = Parse(file.Content);
+
+            List<AuditEntry> newContent = entries
+                .Where(x => x.Visitor != visitorName)
+                .Select((entry, index) => new AuditEntry(index + 1, entry.Visitor, entry.TimeOfVisit))
+                .ToList();
+
+            if (newContent.Count == entries.Count)
+            {
+                return null;
             }
+
+            if (newContent.Count == 0)
+            {
+                return new FileAction(file.FileName, ActionType.Delete, new string[0]);
+            }
+
+            return new FileAction(file.FileName, ActionType.Update, Serialize(newContent));
         }
 
         private string[] Serialize(List<AuditEntry> entires)
